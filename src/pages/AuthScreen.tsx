@@ -82,17 +82,17 @@ export function AuthScreen() {
   };
 
   return (
-    <div className="min-h-screen flex bg-page">
+    <div className="min-h-screen flex justify-center items-center bg-page p-6">
       {/* Painel esquerdo — branding */}
-      <div className="hidden lg:flex flex-col justify-between w-[44%] max-w-xl p-12 relative overflow-hidden">
+      <div className="hidden lg:flex flex-col justify-between w-[540px] p-12 relative overflow-hidden h-[640px]">
         <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, var(--accent-primary) 0, transparent 40%), radial-gradient(circle at 80% 70%, var(--status-info) 0, transparent 45%)' }} />
-        <div className="relative mb-22" style={{ transform: 'scale(1.7)', transformOrigin: 'top left' }}>
-          <img src="/cerne-logo-full-v2.svg" alt="Cerne" className="h-20" />
+        <div className="relative">
+          <img src="/cerne-logo-full-v2.svg" alt="Cerne" className="h-24" />
           <motion.h1
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="text-xl font-bold text-content leading-tight max-w-sm"
+            className="text-3xl font-bold text-content leading-tight max-w-sm mt-4"
           >
             Uma visão única, interativa e confiável de toda a empresa.
           </motion.h1>
@@ -100,7 +100,7 @@ export function AuthScreen() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
-            className="text-xs text-content-muted mt-3 max-w-sm leading-relaxed"
+            className="text-sm text-content-muted mt-3 max-w-sm leading-relaxed"
           >
             KPIs em tempo real, drill-down até o lançamento, alertas inteligentes e dados consolidados — para o Diretor Financeiro e de Controladoria tomarem decisões com confiança.
           </motion.p>
@@ -120,12 +120,12 @@ export function AuthScreen() {
       </div>
 
       {/* Painel direito — formulário */}
-      <div className="flex-1 flex items-center justify-center p-6">
+      <div className="flex items-center justify-center w-full lg:w-[440px] p-6 lg:p-0">
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="w-full max-w-sm"
+          className="w-full max-w-md"
         >
           <img src="/cerne-logo-full-v2.svg" alt="Cerne" className="lg:hidden h-24 mb-8" />
 
@@ -171,33 +171,6 @@ export function AuthScreen() {
             </Button>
           </form>
 
-          <div className="mt-5 flex items-center gap-3 text-xs text-content-muted">
-            <div className="flex-1 h-px bg-border-subtle" />
-            <span>ou</span>
-            <div className="flex-1 h-px bg-border-subtle" />
-          </div>
-
-          <button onClick={enterDemo} className="mt-4 w-full inline-flex items-center justify-center gap-2 text-sm font-semibold text-page bg-accent hover:bg-accent-hover rounded-lg py-2.5 transition-colors">
-            <Zap size={16} /> Entrar em modo demonstração
-          </button>
-
-          <button onClick={fillDemo} className="mt-2 w-full text-xs text-content-muted hover:text-content flex items-center justify-center gap-1.5 py-2 rounded-lg hover:bg-surface-hover transition-colors">
-            <ShieldCheck size={13} /> Criar conta demo e entrar
-          </button>
-
-          {importedRecords.length === 0 && (
-            <button onClick={installLocalDemo} disabled={installing} className="mt-2 w-full text-xs text-content-muted hover:text-content flex items-center justify-center gap-1.5 py-2 rounded-lg hover:bg-surface-hover transition-colors disabled:opacity-50">
-              {installing ? <Loader2 size={13} className="animate-spin" /> : <HardDriveDownload size={13} />}
-              {installing ? 'Instalando...' : 'Instalar Demo Local'}
-            </button>
-          )}
-
-          <p className="mt-6 text-center text-sm text-content-muted">
-            {mode === 'login' ? 'Não tem conta? ' : 'Já tem conta? '}
-            <button onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="text-accent font-medium hover:underline">
-              {mode === 'login' ? 'Criar agora' : 'Entrar'}
-            </button>
-          </p>
         </motion.div>
       </div>
     </div>
