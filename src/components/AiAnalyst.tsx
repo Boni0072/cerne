@@ -323,7 +323,7 @@ export function AiAnalyst({ kpis, filtered, filters, alertas }: AiAnalystProps) 
                       </div>
                       <div className="card-base p-3.5 rounded-2xl rounded-tl-sm max-w-[85%]">
                         <p className="text-sm text-content/90 leading-relaxed">
-                          Olá! Sou seu <strong className="text-content">analista financeiro</strong>. Tenho acesso aos KPIs e dados do dashboard em tempo real.
+                          Olá! Sou seu <strong className="text-content">Boni</strong>. Tenho acesso aos KPIs e dados do dashboard em tempo real.
                         </p>
                         <p className="text-sm text-content-muted leading-relaxed mt-2">
                           Posso identificar pontos fortes, fracos e o que precisa de atenção. Como posso ajudar?

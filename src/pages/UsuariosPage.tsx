@@ -44,6 +44,7 @@ export function UsuariosPage() {
   const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<Usuario | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   // usuário atual (do Firebase auth) mapeado para o registro de usuarios
   const usuarioAtual = useMemo(() => {
@@ -89,8 +90,13 @@ export function UsuariosPage() {
   const handleDelete = async () => {
     if (!confirmDelete) return;
     setDeleting(true);
-    await removerUsuario(confirmDelete.id);
+    setDeleteError(null);
+    const { error } = await removerUsuario(confirmDelete.id);
     setDeleting(false);
+    if (error) {
+      setDeleteError(error);
+      return;
+    }
     setConfirmDelete(null);
   };
 
@@ -255,9 +261,23 @@ export function UsuariosPage() {
                                   </div>
                                   <p className="text-xs text-content-muted mt-2">{visiveis.length} módulos acessíveis</p>
                                 </div>
-                                <button onClick={() => abrirEdicao(u)} className="h-8 w-8 grid place-items-center rounded-lg text-content-muted hover:text-content hover:bg-surface-hover">
-                                  <Pencil size={15} />
-                                </button>
+                                <div className="relative">
+                                  <button
+                                    onClick={() => setMenuOpenId(menuOpenId === u.id ? null : u.id)}
+                                    className="h-8 w-8 grid place-items-center rounded-lg text-content-muted hover:text-content hover:bg-surface-hover"
+                                  >
+                                    <MoreVertical size={16} />
+                                  </button>
+                                  {menuOpenId === u.id && (
+                                    <>
+                                      <div className="fixed inset-0 z-10" onClick={() => setMenuOpenId(null)} />
+                                      <div className="absolute right-0 top-10 z-20 w-44 rounded-lg bg-surface border border-border-subtle shadow-card-hover py-1 animate-scale-in origin-top-right">
+                                        <button onClick={() => abrirEdicao(u)} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-content hover:bg-surface-hover text-left"><Pencil size={14} /> Editar</button>
+                                        <button onClick={() => { setConfirmDelete(u); setMenuOpenId(null); }} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-danger hover:bg-danger/10 text-left"><Trash2 size={14} /> Excluir</button>
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           );
@@ -333,6 +353,12 @@ export function UsuariosPage() {
             <p className="text-sm text-content-muted">
               Tem certeza que deseja excluir <span className="font-medium text-content">{confirmDelete.nome}</span>? Todas as permissões associadas também serão removidas.
             </p>
+            {deleteError && (
+              <div className="mt-3 flex items-start gap-2 text-xs text-danger bg-danger/10 border border-danger/20 rounded-lg p-3">
+                <AlertCircle size={15} className="mt-0.5 shrink-0" />
+                <span>{deleteError}</span>
+              </div>
+            )}
             <div className="mt-4 flex justify-end gap-2">
               <Button variant="ghost" onClick={() => setConfirmDelete(null)} disabled={deleting}>Cancelar</Button>
               <Button variant="danger" leftIcon={deleting ? <Loader2 size={15} className="animate-spin" /> : <Trash2 size={15} />} onClick={handleDelete} disabled={deleting}>
